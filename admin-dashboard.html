@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peniel Experience 2026 — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9920A;--gold-2:#F0B429;--gold-3:#FDE68A;--gold-4:#FFF8E0;
+  --ink:#0E0600;--ink-2:#1C0F00;--ink-3:#3D2308;
+  --paper:#FAF6EE;--paper-2:#F3EBD8;--paper-3:#EAE0C8;
+  --accent:#8B1A00;--accent-2:#B02200;
+  --muted:rgba(28,15,0,0.42);--muted-2:rgba(28,15,0,0.22);
+  --error:#C0392B;--success:#166534;
+  --r-xs:6px;--r-sm:10px;--r-md:16px;--r-lg:24px;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md:0 8px 32px rgba(0,0,0,0.12);
+  --shadow-lg:0 24px 64px rgba(0,0,0,0.18);
+  --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink-2);min-height:100vh}
+
+/* ===== LOGIN GATE ===== */
+#loginGate{
+  position:fixed;inset:0;z-index:900;
+  background:radial-gradient(circle at 30% 20%,#241205,var(--ink) 70%);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+}
+.login-card{
+  width:100%;max-width:380px;background:var(--paper);border-radius:var(--r-lg);
+  padding:40px 32px;box-shadow:var(--shadow-lg);text-align:center;
+  border:1px solid rgba(201,146,10,0.25);
+}
+.login-card .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.login-card h1{font-family:'Cinzel',serif;font-size:22px;color:var(--ink-2);margin:8px 0 24px;font-weight:700}
+.login-card input{
+  width:100%;padding:14px 16px;border:1.5px solid var(--paper-3);border-radius:var(--r-sm);
+  font-family:'Inter',sans-serif;font-size:15px;background:#fff;color:var(--ink-2);
+  margin-bottom:14px;transition:border-color .2s;
+}
+.login-card input:focus{outline:none;border-color:var(--gold)}
+.login-card button{
+  width:100%;padding:14px;border:none;border-radius:var(--r-sm);
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));color:var(--ink);
+  font-weight:700;font-size:15px;cursor:pointer;transition:transform .15s,box-shadow .15s;
+  font-family:'Inter',sans-serif;
+}
+.login-card button:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.login-err{color:var(--error);font-size:13px;margin-top:10px;min-height:18px}
+
+/* ===== APP SHELL ===== */
+#app{display:none}
+header.topbar{
+  position:sticky;top:0;z-index:50;
+  background:var(--ink-2);color:var(--paper);
+  padding:16px 20px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--shadow-md);gap:12px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--gold-2);box-shadow:0 0 10px var(--gold-2)}
+.brand h2{font-family:'Cinzel',serif;font-size:16px;font-weight:700;letter-spacing:.03em}
+.brand span{font-size:11px;color:var(--gold-3);display:block;letter-spacing:.08em;text-transform:uppercase}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+.btn{
+  border:none;border-radius:var(--r-sm);padding:9px 16px;font-size:13px;font-weight:600;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:transform .15s,opacity .15s;
+  white-space:nowrap;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:var(--ink)}
+.btn-ghost{background:rgba(255,255,255,0.08);color:var(--paper);border:1px solid rgba(255,255,255,0.15)}
+.btn-outline{background:transparent;border:1.5px solid var(--paper-3);color:var(--ink-2)}
+
+main{max-width:1280px;margin:0 auto;padding:24px 20px 60px}
+
+/* ===== STAT CARDS ===== */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:28px}
+.stat-card{
+  background:#fff;border-radius:var(--r-md);padding:18px;box-shadow:var(--shadow-sm);
+  border:1px solid var(--paper-3);position:relative;overflow:hidden;
+}
+.stat-card .stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.stat-card .stat-value{font-family:'DM Serif Display',serif;font-size:32px;color:var(--ink-2);margin-top:6px}
+.stat-card.accent{border-color:rgba(201,146,10,0.4)}
+.stat-card.accent::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gold)}
+
+/* ===== TOOLBAR ===== */
+.toolbar{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;
+  background:#fff;padding:14px;border-radius:var(--r-md);box-shadow:var(--shadow-sm);
+}
+.toolbar input[type="text"]{
+  flex:1;min-width:180px;padding:10px 14px;border:1.5px solid var(--paper-3);
+  border-radius:var(--r-sm);font-size:14px;font-family:'Inter',sans-serif;
+}
+.toolbar select{
+  padding:10px 12px;border:1.5px solid var(--paper-3);border-radius:var(--r-sm);
+  font-size:14px;font-family:'Inter',sans-serif;background:#fff;color:var(--ink-2);
+}
+.toolbar input:focus,.toolbar select:focus{outline:none;border-color:var(--gold)}
+
+/* ===== TABLE ===== */
+.table-wrap{background:#fff;border-radius:var(--r-md);box-shadow:var(--shadow-sm);overflow:hidden}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:920px}
+thead th{
+  background:var(--paper-2);color:var(--ink-3);text-align:left;padding:12px 14px;
+  font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;
+  border-bottom:2px solid var(--paper-3);white-space:nowrap;position:sticky;top:0;
+}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--paper-2);white-space:nowrap;color:var(--ink-2)}
+tbody tr:hover{background:var(--gold-4)}
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.03em;
+}
+.badge-male{background:#DCEBFF;color:#1D4ED8}
+.badge-female{background:#FCE7F3;color:#BE185D}
+.badge-yes{background:#DCFCE7;color:var(--success)}
+.badge-no{background:var(--paper-3);color:var(--muted)}
+.copy-btn{
+  border:1px solid var(--paper-3);background:#fff;border-radius:6px;padding:4px 9px;
+  font-size:11px;cursor:pointer;color:var(--ink-3);font-weight:600;
+}
+.copy-btn:hover{background:var(--gold-4);border-color:var(--gold)}
+.empty-state{padding:60px 20px;text-align:center;color:var(--muted)}
+.empty-state .icon{font-size:40px;margin-bottom:12px}
+.loading{padding:60px 20px;text-align:center;color:var(--muted);font-size:14px}
+.footer-note{text-align:center;color:var(--muted);font-size:12px;margin-top:20px}
+
+@media(max-width:640px){
+  header.topbar{padding:14px}
+  .brand h2{font-size:14px}
+  main{padding:16px 12px 40px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginGate">
+  <div class="login-card">
+    <div class="eyebrow">Peniel Experience 2026</div>
+    <h1>Admin Access</h1>
+    <input type="password" id="passcodeInput" placeholder="Enter passcode" autocomplete="off">
+    <button onclick="tryLogin()">Enter Dashboard</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <div>
+        <h2>Peniel Experience 2026</h2>
+        <span>Mighty Works · Registrations</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" onclick="loadData()">↻ Refresh</button>
+      <button class="btn btn-gold" onclick="exportCSV()">Export CSV</button>
+      <button class="btn btn-outline" onclick="logout()" style="background:transparent;color:var(--paper);border-color:rgba(255,255,255,.25)">Log out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stats" id="statsRow"></div>
+
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search name, email, phone, church, units..." oninput="applyFilters()">
+      <select id="genderFilter" onchange="applyFilters()">
+        <option value="">All Genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <select id="firstTimeFilter" onchange="applyFilters()">
+        <option value="">First Timer: All</option>
+        <option value="Yes">First Timer: Yes</option>
+        <option value="No">First Timer: No</option>
+      </select>
+      <select id="checkinFilter" onchange="applyFilters()">
+        <option value="">Check-in: All</option>
+        <option value="Checked In">Checked In</option>
+        <option value="Not Checked In">Not Checked In</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table id="regTable">
+          <thead>
+            <tr>
+              <th>Reg. ID</th><th>Name</th><th>Phone</th><th>Email</th>
+              <th>Church</th><th>Gender</th><th>First Timer</th><th>Units</th>
+              <th>Registered</th><th>Status</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div id="stateMsg"></div>
+    </div>
+
+    <div class="footer-note">Peniel Experience 2026 — Admin Dashboard · Data syncs from Google Sheets</div>
+  </main>
+</div>
+
+<script>
+/* ============ CONFIG ============ */
+var SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwNWESd5NfHOyY0vIZfgwRF956V88tWp35rnn06v4C1Zcjh4CZWk04moJ37GrXLP6_dqQ/exec';
+var API_KEY = 'peniel2026-mighty-KX7q'; // must match API_KEY in Code.gs
+var DASHBOARD_PASSCODE = 'MightyWorks2026'; // change this before sharing the file
+
+var allRegistrations = [];
+
+/* ============ LOGIN ============ */
+function tryLogin(){
+  var val = document.getElementById('passcodeInput').value;
+  if(val === DASHBOARD_PASSCODE){
+    sessionStorage.setItem('penielAdminAuth','1');
+    document.getElementById('loginGate').style.display='none';
+    document.getElementById('app').style.display='block';
+    loadData();
+  } else {
+    document.getElementById('loginErr').textContent='Incorrect passcode. Try again.';
+  }
+}
+document.getElementById('passcodeInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter') tryLogin();
+});
+function logout(){
+  sessionStorage.removeItem('penielAdminAuth');
+  location.reload();
+}
+if(sessionStorage.getItem('penielAdminAuth')==='1'){
+  document.getElementById('loginGate').style.display='none';
+  document.getElementById('app').style.display='block';
+}
+
+/* ============ DATA LOADING ============ */
+function loadData(){
+  document.getElementById('stateMsg').innerHTML = '<div class="loading">Loading registrations…</div>';
+  document.getElementById('tableBody').innerHTML='';
+  fetch(SHEET_API_URL + '?key=' + encodeURIComponent(API_KEY))
+    .then(function(res){ return res.json(); })
+    .then(function(json){
+      if(json.status !== 'success'){
+        showError(json.message || 'Could not load data.');
+        return;
+      }
+      allRegistrations = json.data.filter(function(r){ return r.fullName; });
+      document.getElementById('stateMsg').innerHTML='';
+      renderStats(allRegistrations);
+      applyFilters();
+    })
+    .catch(function(err){
+      showError('Network or CORS error — see console. (' + err + ')');
+    });
+}
+
+function showError(msg){
+  document.getElementById('stateMsg').innerHTML =
+    '<div class="empty-state"><div class="icon">⚠️</div>' + msg + '</div>';
+}
+
+/* ============ STATS ============ */
+function renderStats(list){
+  var total = list.length;
+  var todayStr = new Date().toLocaleDateString('en-NG',{timeZone:'Africa/Lagos'});
+  var today = list.filter(function(r){
+    return String(r.timestamp).indexOf(todayStr.split('/')[0]) !== -1; // loose fallback
+  }).length;
+  var male = list.filter(function(r){return (r.gender||'').toLowerCase()==='male';}).length;
+  var female = list.filter(function(r){return (r.gender||'').toLowerCase()==='female';}).length;
+  var firstTimers = list.filter(function(r){return (r.firstTime||'').toLowerCase()==='yes';}).length;
+  var checkedIn = list.filter(function(r){return r.checkInStatus==='Checked In';}).length;
+
+  var cards = [
+    ['Total Registrations', total, true],
+    ['Male', male, false],
+    ['Female', female, false],
+    ['First Timers', firstTimers, false],
+    ['Checked In', checkedIn, false]
+  ];
+  document.getElementById('statsRow').innerHTML = cards.map(function(c){
+    return '<div class="stat-card'+(c[2]?' accent':'')+'"><div class="stat-label">'+c[0]+'</div><div class="stat-value">'+c[1]+'</div></div>';
+  }).join('');
+}
+
+/* ============ FILTER + RENDER TABLE ============ */
+function applyFilters(){
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var gender = document.getElementById('genderFilter').value;
+  var firstTime = document.getElementById('firstTimeFilter').value;
+  var checkin = document.getElementById('checkinFilter').value;
+
+  var filtered = allRegistrations.filter(function(r){
+    var haystack = [r.fullName,r.email,r.phone,r.denomination,r.units].join(' ').toLowerCase();
+    if(q && haystack.indexOf(q)===-1) return false;
+    if(gender && r.gender !== gender) return false;
+    if(firstTime && r.firstTime !== firstTime) return false;
+    if(checkin && r.checkInStatus !== checkin) return false;
+    return true;
+  });
+
+  renderTable(filtered);
+}
+
+function renderTable(list){
+  var tbody = document.getElementById('tableBody');
+  if(list.length === 0){
+    tbody.innerHTML = '';
+    document.getElementById('stateMsg').innerHTML = '<div class="empty-state"><div class="icon">🔍</div>No registrations match your filters.</div>';
+    return;
+  }
+  document.getElementById('stateMsg').innerHTML='';
+  tbody.innerHTML = list.map(function(r){
+    var genderBadge = (r.gender||'').toLowerCase()==='male' ? 'badge-male' : 'badge-female';
+    var checkedIn = r.checkInStatus === 'Checked In';
+    return '<tr>'+
+      '<td><strong>'+esc(r.registrationId)+'</strong></td>'+
+      '<td>'+esc(r.fullName)+'</td>'+
+      '<td>'+esc(r.phone)+'</td>'+
+      '<td>'+esc(r.email)+'</td>'+
+      '<td>'+esc(r.denomination)+'</td>'+
+      '<td><span class="badge '+genderBadge+'">'+esc(r.gender)+'</span></td>'+
+      '<td><span class="badge '+((r.firstTime||'').toLowerCase()==='yes'?'badge-yes':'badge-no')+'">'+esc(r.firstTime)+'</span></td>'+
+      '<td>'+esc(r.units)+'</td>'+
+      '<td>'+esc(r.timestamp)+'</td>'+
+      '<td><span class="badge '+(checkedIn?'badge-yes':'badge-no')+'">'+esc(r.checkInStatus)+'</span></td>'+
+      '<td><button class="copy-btn" onclick="copyField(this,\''+escAttr(r.phone)+'\')">Copy #</button></td>'+
+      '</tr>';
+  }).join('');
+}
+
+function esc(v){
+  if(v===undefined||v===null) return '';
+  return String(v).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function escAttr(v){ return esc(v).replace(/'/g,"\\'"); }
+
+function copyField(btn, text){
+  navigator.clipboard.writeText(text).then(function(){
+    var orig = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(function(){ btn.textContent = orig; }, 1200);
+  });
+}
+
+/* ============ CSV EXPORT ============ */
+function exportCSV(){
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var rows = allRegistrations.filter(function(r){
+    var haystack = [r.fullName,r.email,r.phone,r.denomination,r.units].join(' ').toLowerCase();
+    return !q || haystack.indexOf(q)!==-1;
+  });
+  var header = ['Registration ID','Full Name','Phone','Email','Denomination','Gender','First Timer','Heard About','Units','Timestamp','Check-In Status'];
+  var lines = [header.join(',')];
+  rows.forEach(function(r){
+    var line = [r.registrationId,r.fullName,r.phone,r.email,r.denomination,r.gender,r.firstTime,r.hearAbout,r.units,r.timestamp,r.checkInStatus]
+      .map(function(v){ return '"'+String(v||'').replace(/"/g,'""')+'"'; }).join(',');
+    lines.push(line);
+  });
+  var blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'peniel-2026-registrations-' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
