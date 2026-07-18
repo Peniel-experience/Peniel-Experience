@@ -186,15 +186,15 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:10px;
   font-size:10px;font-weight:600;letter-spacing:4px;
-  color:rgba(240,180,41,0.6);text-transform:uppercase;
+  color:rgba(18, 16, 12, 0.902);text-transform:uppercase;
   margin-bottom:20px;
 }
 .hero-eyebrow::before,.hero-eyebrow::after{
   content:'';display:block;
   width:32px;height:1px;
-  background:linear-gradient(90deg, transparent, rgba(240,180,41,0.4));
+  background:linear-gradient(90deg, transparent, rgba(8, 6, 1, 0.916));
 }
-.hero-eyebrow::after{background:linear-gradient(90deg, rgba(240,180,41,0.4), transparent)}
+.hero-eyebrow::after{background:linear-gradient(90deg, rgba(12, 9, 2, 0.902), transparent)}
 
 .hero-title{
   font-family:'Cinzel',serif;
@@ -240,7 +240,7 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
 }
 .hero-verse{
   font-size:12px;font-style:italic;
-  color:rgba(253,240,210,0.38);
+  color:rgba(253, 240, 210, 0.813);
   letter-spacing:2px;margin-bottom:32px;
   animation:fadeIn 1s 0.35s both;
 }
@@ -255,11 +255,11 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
 .hero-meta-pill{
   display:inline-flex;align-items:center;gap:6px;
   padding:7px 16px;
-  background:rgba(201,146,10,0.08);
-  border:1px solid rgba(201,146,10,0.2);
+  background:rgba(71, 52, 4, 0.08);
+  border:1px solid rgba(201, 147, 10, 0.525);
   border-radius:100px;
   font-size:11px;font-weight:500;
-  color:rgba(253,240,210,0.6);
+  color:rgba(253, 240, 210, 0.947);
   letter-spacing:0.5px;
   transition:all 0.25s;
 }
@@ -316,7 +316,7 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
 
 .hero-tagline{
   margin-top:18px;
-  font-size:10.5px;color:rgba(253,230,180,0.35);
+  font-size:10.5px;color:rgba(210, 207, 201, 0.991);
   letter-spacing:2.5px;text-transform:uppercase;
 }
 
@@ -570,6 +570,17 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
   border-bottom-color:var(--gold);
   box-shadow:0 1px 0 var(--gold);
 }
+.ffield textarea:focus{
+  border-bottom-color:var(--gold);
+  box-shadow:0 1px 0 var(--gold);
+}
+.ffield textarea:focus ~ label,
+.ffield textarea:not(:placeholder-shown) ~ label{
+  top:-2px;font-size:10.5px;font-weight:600;
+  color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;
+}
+.ffield textarea::placeholder{color:rgba(28,15,0,0.2);}
+.ffield textarea:focus ~ .field-line{width:100%}
 
 /* validation states */
 .ffield input.err,
@@ -816,6 +827,19 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
   letter-spacing:2px;color:var(--gold);
   margin-bottom:26px;
 }
+.modal-unit-links{
+  display:none;flex-wrap:wrap;justify-content:center;gap:8px;
+  margin:0 0 22px;
+}
+.modal-whatsapp-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12.5px;font-weight:700;font-family:'Inter',sans-serif;
+  background:#25D366;color:#fff;border-radius:100px;
+  padding:9px 16px;text-decoration:none;
+  transition:transform 0.15s,box-shadow 0.15s;
+  box-shadow:0 2px 10px rgba(37,211,102,0.35);
+}
+.modal-whatsapp-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,211,102,0.5)}
 .modal-btn{
   position:relative;overflow:hidden;
   padding:14px 40px;
@@ -1040,6 +1064,13 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
             <div class="field-line"></div>
           </div>
         </div>
+        <div class="frow solo">
+          <div class="ffield" style="margin-top:8px">
+            <textarea id="prayerPoint" placeholder="Share any prayer requests or things you'd like us to pray about..." rows="3" style="background:transparent;border:none;border-bottom:1.5px solid var(--muted-2);border-radius:0;padding:28px 2px 10px;font-family:'Inter',sans-serif;font-size:15px;font-weight:400;color:var(--ink-2);outline:none;transition:border-color 0.25s, box-shadow 0.25s;width:100%;resize:vertical;min-height:80px;-webkit-appearance:none;appearance:none;order:2"></textarea>
+            <label for="prayerPoint" style="position:absolute;top:18px;left:2px;font-size:14px;font-weight:400;color:var(--muted);pointer-events:none;transition:all 0.22s var(--ease-out-expo);transform-origin:left top;z-index:1;order:1">Prayer Point <span style="font-size:11px;color:var(--muted)">(optional)</span></label>
+            <div class="field-line" style="position:absolute;bottom:0;left:0;height:1.5px;width:0;background:var(--gold);transition:width 0.3s var(--ease-out-expo);pointer-events:none;order:3"></div>
+          </div>
+        </div>
       </div>
 
       <!-- SECTION 3 — Serve -->
@@ -1054,29 +1085,37 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
         <div class="fsection-rule"></div>
 
         <div class="fnote">
-          Select any units you'd like to serve in. You can choose more than one. Leave all unchecked if you'd prefer to just attend.
+          Select the one unit you'd like to serve in. Leave unchecked if you'd prefer to just attend.
         </div>
 
         <div class="funit-grid">
-          <label class="funit">
-            <input type="checkbox" name="unit" value="Worship Team">
-            <div class="funit-face"><span class="funit-icon">🎼</span>Worship Team</div>
-          </label>
           <label class="funit">
             <input type="checkbox" name="unit" value="Protocol">
             <div class="funit-face"><span class="funit-icon">🛡️</span>Protocol</div>
           </label>
           <label class="funit">
+            <input type="checkbox" name="unit" value="Media">
+            <div class="funit-face"><span class="funit-icon">🎥</span>Media</div>
+          </label>
+          <label class="funit">
             <input type="checkbox" name="unit" value="Ushering">
-            <div class="funit-face"><span class="funit-icon">&#129309;</span>Ushering</div>
+            <div class="funit-face"><span class="funit-icon">🤝</span>Ushering</div>
+          </label>
+          <label class="funit">
+            <input type="checkbox" name="unit" value="Logistics">
+            <div class="funit-face"><span class="funit-icon">📦</span>Logistics</div>
           </label>
           <label class="funit">
             <input type="checkbox" name="unit" value="Programs Team">
             <div class="funit-face"><span class="funit-icon">🗂️</span>Programs Team</div>
           </label>
           <label class="funit">
+            <input type="checkbox" name="unit" value="Peniel Theater">
+            <div class="funit-face"><span class="funit-icon">🎭</span>Peniel Theater</div>
+          </label>
+          <label class="funit">
             <input type="checkbox" name="unit" value="Welfare">
-            <div class="funit-face"><span class="funit-icon">&#128155;</span>Welfare</div>
+            <div class="funit-face"><span class="funit-icon">💛</span>Welfare</div>
           </label>
         </div>
       </div>
@@ -1115,6 +1154,7 @@ body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--ink-2);ove
       &#128233; A confirmation has been sent to <strong id="modalEmail"></strong> &mdash; check your inbox (and spam just in case).
     </div>
     <div class="modal-units" id="modalUnits"></div>
+    <div class="modal-unit-links" id="modalUnitLinks"></div>
     <div class="modal-date">25TH JULY 2026 &nbsp;&middot;&nbsp; 9AM &nbsp;&middot;&nbsp; PORT HARCOURT</div>
     <button class="modal-btn" onclick="closeModal()">Done &mdash; Thank You &#10003;</button>
   </div>
@@ -1291,6 +1331,17 @@ function setRErr(id,show){var el=document.getElementById('err-'+id);if(el)el.cla
 document.querySelectorAll('input[type="radio"]').forEach(function(r){
   r.addEventListener('change',function(){setRErr(r.name,false);updateProgress();});
 });
+/* Only one unit can be selected at a time — checking one clears the others.
+   Unticking the active one leaves it as "attend only". */
+document.querySelectorAll('input[name="unit"]').forEach(function(cb){
+  cb.addEventListener('change',function(){
+    if(this.checked){
+      document.querySelectorAll('input[name="unit"]').forEach(function(other){
+        if(other!==cb)other.checked=false;
+      });
+    }
+  });
+});
 var selectEl=document.getElementById('hearAbout');
 if(selectEl){
   selectEl.addEventListener('change',function(){
@@ -1326,6 +1377,7 @@ function handleSubmit(){
     denomination:val('denomination'),gender:val('gender'),
     firstTime:val('firstTime'),
     hearAbout:document.getElementById('hearAbout').value||'Not specified',
+    prayerPoint:document.getElementById('prayerPoint').value.trim()||'None shared',
     units:units.length?units.join(', '):'Attending only',
   };
   var btn=document.getElementById('submitBtn');
@@ -1342,7 +1394,7 @@ function handleSubmit(){
         fullName:data.firstName+' '+data.lastName,
         phone:data.phone,email:data.email,
         denomination:data.denomination,gender:data.gender,
-        firstTime:data.firstTime,hearAbout:data.hearAbout,units:data.units
+        firstTime:data.firstTime,hearAbout:data.hearAbout,prayerPoint:data.prayerPoint,units:data.units
       })
     }).catch(function(){});
   }
@@ -1367,6 +1419,7 @@ function doSend(data,units,btn){
     phone:data.phone,email:data.email,
     denomination:data.denomination,gender:data.gender,
     first_time:data.firstTime,hear_about:data.hearAbout,
+    prayer_point:data.prayerPoint,
     units:data.units,
     event:'Peniel Experience 2026 - Mighty Works',
     event_date:'Saturday, 25th July 2026 at 9:00 AM',
@@ -1379,17 +1432,47 @@ function doSend(data,units,btn){
   });
 }
 
+var UNIT_LINKS={
+  'Media':'https://chat.whatsapp.com/BtjUtte4PWpE0FezSZDypj',
+  'Programs Team':'https://chat.whatsapp.com/KFCnGxlAtX22dsfebRXmp2?s=sw&p=i&mlu=0&ilr=0',
+  'Ushering':'https://chat.whatsapp.com/BIAKyigkFoV25gT02gi5JJ',
+  'Protocol':'https://chat.whatsapp.com/HXBGJy40ukRIJOagQhcTRe?s=cl&p=a&ilr=1',
+  'Welfare':'https://chat.whatsapp.com/J1zXxdVy7ZCAAIP7PfJofq',
+  'Logistics':'https://chat.whatsapp.com/EOw5moxDCkXJKvb7JP4M9Q?s=cl&p=a&ilr=4',
+  'Peniel Theater':'https://chat.whatsapp.com/D1ZI2w6JzJ17ZQJ5EB2Unw'
+};
+
 function showModal(units,email){
   document.getElementById('modalEmail').textContent=email;
   var wrap=document.getElementById('modalUnits');
   wrap.innerHTML=units.length
     ?units.map(function(u){return '<span class="modal-upill">'+u+'</span>';}).join('')
     :'<span class="modal-upill" style="opacity:.4">Attending only</span>';
+
+  var linksWrap=document.getElementById('modalUnitLinks');
+  var linkedUnits=units.filter(function(u){return UNIT_LINKS[u];});
+  if(linkedUnits.length){
+    linksWrap.style.display='flex';
+    linksWrap.innerHTML=linkedUnits.map(function(u){
+      return '<a class="modal-whatsapp-btn" href="'+UNIT_LINKS[u]+'" target="_blank" rel="noopener">&#128172; Join '+u+' Group</a>';
+    }).join('');
+    /* best-effort auto-open; browsers may block this since it isn't a direct click,
+       so the buttons above are the reliable fallback */
+    if(linkedUnits.length===1){
+      try{ window.open(UNIT_LINKS[linkedUnits[0]],'_blank','noopener'); }catch(e){}
+    }
+  } else {
+    linksWrap.style.display='none';
+    linksWrap.innerHTML='';
+  }
+
   document.getElementById('successModal').classList.add('show');
 }
 
 function closeModal(){
   document.getElementById('successModal').classList.remove('show');
+  var linksWrap=document.getElementById('modalUnitLinks');
+  if(linksWrap){linksWrap.style.display='none';linksWrap.innerHTML='';}
   ['firstName','lastName','phone','email','denomination'].forEach(function(id){
     var el=document.getElementById(id);
     if(el){el.value='';setErr(id,false);el.classList.remove('valid');}
@@ -1397,6 +1480,8 @@ function closeModal(){
   document.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(function(i){i.checked=false;});
   var ha=document.getElementById('hearAbout');
   if(ha){ha.selectedIndex=0;ha.parentElement.classList.remove('has-val');}
+  var pp=document.getElementById('prayerPoint');
+  if(pp){pp.value='';}
   setRErr('gender',false);setRErr('firstTime',false);
   window.scrollTo({top:0,behavior:'smooth'});
   updateProgress();
